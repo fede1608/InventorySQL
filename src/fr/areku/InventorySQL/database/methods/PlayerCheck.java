@@ -243,15 +243,15 @@ public class PlayerCheck extends SQLMethod {
 									"DELETE FROM `"
 											+ Config.dbTable_Enchantments
 											+ "` WHERE `id` IN ("
-											+ donePendings + "0);");
+											+ donePendings + "'0');");
 							getConn().createStatement().executeUpdate(
 									"DELETE FROM `" + Config.dbTable_Pendings
 											+ "` WHERE `id` IN ("
-											+ donePendings + "0);");
+											+ donePendings + "'0');");
 							getConn().createStatement().executeUpdate(
 									"DELETE FROM `" + Config.dbTable_Meta
 											+ "` WHERE `id` IN ("
-											+ donePendings + "0);");
+											+ donePendings + "'0');");
 						}
 						sendMessage("[InventorySQL] "
 								+ ChatColor.GREEN
@@ -360,7 +360,7 @@ public class PlayerCheck extends SQLMethod {
 				String w = q
 						+ " (`inventories`.`owner` IN ("
 						+ all
-						+ "0) AND `inventories`.`date` != ? AND `inventories`.`world` = ?)";
+						+ "0) AND `inventories`.`date` != ? )";
 
 				try {
 					PreparedStatement sth = getConn().prepareStatement(w);
