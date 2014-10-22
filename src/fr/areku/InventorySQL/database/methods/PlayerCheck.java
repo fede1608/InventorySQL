@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -598,15 +599,16 @@ public class PlayerCheck extends SQLMethod {
 			}
 			if (invMeta.getLore() != null)
 				if (!invMeta.getLore().isEmpty()) {
-					int i = 0;
+					int i = 1;
 					for (String l : invMeta.getLore()) {
 						this.updatesql_meta += "('" + invSlotID + "', 'Lore_"
-								+ (i + 1) + "', '" + l + "', 0),";
+								+ (i) + "', '" + l + "', 0),";
 						if (Config.backup_enabled) {
 							this.updatesql_meta += "('" + invSlotID
-									+ "', 'Lore_" + (i + 1) + "', '" + l
+									+ "', 'Lore_" + (i) + "', '" + l
 									+ "', 1),";
 						}
+						i++;
 					}
 				}
 
@@ -625,29 +627,14 @@ public class PlayerCheck extends SQLMethod {
 					this.updatesql_meta += "('" + invSlotID + "', 'Scaling', '"
 							+ ((MapMeta) invMeta).isScaling() + "', 1),";
 				}
+			}else if (invMeta instanceof LeatherArmorMeta){
+				this.updatesql_meta += "('" + invSlotID + "', 'Color', '"
+						+ String.valueOf(((LeatherArmorMeta) invMeta).getColor().asRGB()) + "', 0),";
+				if (Config.backup_enabled) {
+					this.updatesql_meta += "('" + invSlotID + "', 'Color', '"
+							+ String.valueOf(((LeatherArmorMeta) invMeta).getColor().asRGB()) + "', 1),";
+				}
 			}
-
-			/*
-			 * switch (invSlotItem.getType()) { case MONSTER_EGG:
-			 * this.updatesql_meta += "('" + invSlotID + "', 'SpawnedType', '" +
-			 * ((SpawnEgg) invMeta).getSpawnedType().getTypeId() + "', 0),";
-			 * break; case INK_SACK: this.updatesql_meta += "('" + invSlotID +
-			 * "', 'Color', '" + ((Dye) invMeta).getColor().getDyeData() +
-			 * "', 0),"; break; case WOOD: case SAPLING: case LOG: case LEAVES:
-			 * this.updatesql_meta += "('" + invSlotID + "', 'Species', '" +
-			 * ((Tree) invMeta).getSpecies().getData() + "', 0),"; break; case
-			 * WOOD_DOUBLE_STEP: case WOOD_STEP: this.updatesql_meta += "('" +
-			 * invSlotID + "', 'Species', '" + ((WoodenStep)
-			 * invMeta).getSpecies().getData() + "', 0),"; break; case
-			 * SANDSTONE: this.updatesql_meta += "('" + invSlotID +
-			 * "', 'Type', '" + ((Sandstone) invMeta).getType().getData() +
-			 * "', 0),"; break; case COAL: this.updatesql_meta += "('" +
-			 * invSlotID + "', 'Type', '" + ((Coal) invMeta).getType().getData()
-			 * + "', 0),"; break; case WOOL: this.updatesql_meta += "('" +
-			 * invSlotID + "', 'Color', '" + ((Wool)
-			 * invMeta).getColor().getWoolData() + "', 0),"; break; default:
-			 * break; }
-			 */
 		}
 	}
 
