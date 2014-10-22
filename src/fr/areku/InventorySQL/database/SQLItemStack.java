@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.CoalType;
+import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Builder;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Coal;
 import org.bukkit.material.Dye;
@@ -182,9 +184,15 @@ public class SQLItemStack {
 			} else if ("Trail".equals(meta_key)) {
 				fwBuilder.trail("true".equalsIgnoreCase(meta_value));
 			} else if ("Trail".equals(meta_key)) {
-				// fwBuilder.
+				// fwBuilder
 			} else
 				break;
+		case LEATHER_CHESTPLATE: case LEATHER_BOOTS: case LEATHER_LEGGINGS: case LEATHER_HELMET:
+			if ("Color".equals(meta_key)){
+				((LeatherArmorMeta)meta)
+					.setColor(Color.fromBGR(Integer.parseInt(meta_value)));
+			}
+			break;
 		default:
 			break;
 
